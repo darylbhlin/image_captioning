@@ -1,1 +1,3 @@
 Put the file captions_val2014.json here.
+rm images -r
+ln -s [image_path] images
