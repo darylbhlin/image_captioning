@@ -1,1 +1,3 @@
-Put the COCO train2014 images here.
+Put the COCO train2014 images here or create a link to images.
+rm images -r
+ln -s [image_path] images

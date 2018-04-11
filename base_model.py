@@ -3,7 +3,8 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
-import cPickle as pickle
+import pickle
+#import cPickle as pickle
 import copy
 import json
 from tqdm import tqdm
@@ -259,7 +260,7 @@ class BaseModel(object):
                                      str(global_step)+".npy")
 
         print("Loading the model from %s..." %save_path)
-        data_dict = np.load(save_path).item()
+        data_dict = np.load(save_path,encoding='bytes').item()
         count = 0
         for v in tqdm(tf.global_variables()):
             if v.name in data_dict.keys():
@@ -270,13 +271,13 @@ class BaseModel(object):
     def load_cnn(self, session, data_path, ignore_missing=True):
         """ Load a pretrained CNN model. """
         print("Loading the CNN from %s..." %data_path)
-        data_dict = np.load(data_path).item()
+        data_dict = np.load(data_path,encoding='bytes').item()
         count = 0
         for op_name in tqdm(data_dict):
             with tf.variable_scope(op_name, reuse = True):
-                for param_name, data in data_dict[op_name].iteritems():
+                for param_name, data in data_dict[op_name].items():
                     try:
-                        var = tf.get_variable(param_name)
+                        var = tf.get_variable(str(param_name))
                         session.run(var.assign(data))
                         count += 1
                     except ValueError:

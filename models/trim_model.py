@@ -9,9 +9,9 @@ import numpy as np
 if __name__=='__main__':
     files = os.listdir('.')
     model_files = [f for f in files if f.endswith('.npy')]
-
+    print("=================================")
     for model_file in model_files:
-        model = np.load(model_file).item()
+        model = np.load(model_file,encodeing='bytes').item()
         trimmed_model = {var_name: model[var_name] for var_name in model.keys()
                          if 'optimizer' not in var_name}
         os.rename(model_file, model_file[:-4]+'_old.npy')
